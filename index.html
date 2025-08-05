@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oOreNEO - İnteraktif Robotik Kodlama ve STEM Eğitim Platformu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            scroll-behavior: smooth;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: #F97316;
+        }
+        .section-subtitle {
+            font-size: 1.125rem;
+            color: #4b5563;
+        }
+        .faq-question.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+        .brand-orange { color: #F97316; }
+        .bg-brand-orange { background-color: #F97316; }
+        .hover\:bg-brand-orange-dark:hover { background-color: #EA580C; }
+        .border-brand-orange { border-color: #F97316; }
+        .ring-brand-orange:focus { ring-color: #F97316; }
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .curriculum-level {
+            position: relative;
+            overflow: hidden;
+        }
+        .curriculum-level::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(249, 115, 22, 0.05) 100%);
+            z-index: -1;
+        }
+        .testimonial-card {
+            position: relative;
+        }
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 5rem;
+            color: rgba(249, 115, 22, 0.1);
+            font-family: Georgia, serif;
+        }
+        .gradient-border {
+            position: relative;
+            background: white;
+            background-clip: padding-box;
+            border: solid 2px transparent;
+            border-radius: 0.75rem;
+        }
+        .gradient-border::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: -1;
+            margin: -2px;
+            border-radius: inherit;
+            background: linear-gradient(45deg, #F97316, #3B82F6);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold flex items-center">
+                <span class="text-black">oO</span><span class="brand-orange">re</span><span class="text-black">NEO</span>
+            </a>
+            <div class="hidden lg:flex space-x-8 items-center font-medium text-gray-600">
+                <a href="#ekosistem" class="hover:text-brand-orange transition-colors">Ekosistem</a>
+                <a href="#egitim" class="hover:text-brand-orange transition-colors">Eğitim Çözümleri</a>
+                <a href="#platform" class="hover:text-brand-orange transition-colors">Platform</a>
+                <a href="#sss" class="hover:text-brand-orange transition-colors">SSS</a>
+                <a href="#teklif-al" class="bg-brand-orange text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-brand-orange-dark transition-colors shadow-md">Teklif Al</a>
+            </div>
+            <div class="lg:hidden">
+                <button id="menu-btn" class="text-gray-800 focus:outline-none">
+                    <i data-lucide="menu" class="w-7 h-7"></i>
+                </button>
+            </div>
+        </nav>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t">
+            <a href="#ekosistem" class="block py-3 px-6 text-sm hover:bg-gray-50 hover:text-brand-orange">Ekosistem</a>
+            <a href="#egitim" class="block py-3 px-6 text-sm hover:bg-gray-50 hover:text-brand-orange">Eğitim Çözümleri</a>
+            <a href="#platform" class="block py-3 px-6 text-sm hover:bg-gray-50 hover:text-brand-orange">Platform</a>
+            <a href="#sss" class="block py-3 px-6 text-sm hover:bg-gray-50 hover:text-brand-orange">SSS</a>
+            <a href="#teklif-al" class="block py-3 px-6 text-sm hover:bg-gray-50 hover:text-brand-orange">Teklif Al</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white">
+        <div class="container mx-auto px-6 py-24 md:py-40 text-center">
+            <div class="inline-block bg-brand-orange/20 backdrop-blur-sm px-4 py-1.5 rounded-full mb-4">
+                <span class="text-sm font-medium">Yeni Nesil Robotik Kodlama Platformu</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">oOreNEO ile Kodlamayı Keşfedin, <br class="hidden md:block" /> Geleceği Şekillendirin!</h1>
+            <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">Yarının mühendisleri için kodlama ve robotiği eğlenceli, kolay ve erişilebilir hale getiren yeni nesil interaktif eğitim platformu. Blok tabanlı kodlamadan ileri seviye robotik projelere kadar kapsamlı bir ekosistem.</p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="#ekosistem" class="bg-brand-orange text-white font-bold py-4 px-10 rounded-lg hover:bg-brand-orange-dark transition-colors text-lg shadow-lg flex items-center gap-2">
+                    <i data-lucide="rocket" class="w-5 h-5"></i> Ekosistemi Keşfet
+                </a>
+                <a href="#teklif-al" class="bg-white text-gray-800 font-bold py-4 px-10 rounded-lg hover:bg-gray-100 transition-colors text-lg shadow-lg flex items-center gap-2">
+                    <i data-lucide="phone" class="w-5 h-5"></i> Demo Talep Et
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Made in Turkey Banner -->
+    <section class="bg-gray-800 text-white py-4">
+        <div class="container mx-auto px-6 flex items-center justify-center gap-3">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b4/Flag_of_Turkey.svg" alt="Türk Bayrağı" class="h-6">
+            <p class="font-semibold text-lg">Gururla %100 Türk Malı: Teknoloji ve Eğitimde Yerli Üretim</p>
+        </div>
+    </section>
+
+    <!-- Ekosistem Section -->
+    <section id="ekosistem" class="py-24 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Sadece Bir Kit Değil, Kapsamlı Bir Ekosistem</h2>
+                <p class="section-subtitle mt-6 max-w-3xl mx-auto">oOreNEO; donanım, yazılım, 1'den 12. sınıfa kadar uzanan müfredat ve eğitim hizmetlerini bir araya getiren bütünleşik bir çözümdür.</p>
+            </div>
+            
+            <!-- Ana Kit Tanıtımı -->
+            <div class="bg-white rounded-xl shadow-xl p-8 md:p-12 flex flex-col lg:flex-row items-center gap-12 mb-16">
+                <div class="lg:w-1/2">
+                    <img src="ooreneo.png" alt="oOreNEO Ana Kit" class="rounded-lg shadow-lg w-full">
+                </div>
+                <div class="lg:w-1/2">
+                    <h3 class="text-3xl font-bold mb-4">Kitin Kalbi: oOreNEO Ana Modül</h3>
+                    <p class="text-gray-600 mb-6">Yolculuğunuza başlamak için gereken her şeyi içeren güçlü ve çok yönlü oOreNEO geliştirme cihazı. Kutudan çıktığı anda kullanıma hazır dahili sensörler ve G/Ç birimleri ile donatılmıştır. Karmaşık kablo bağlantıları olmadan, dakikalar içinde kodlamaya başlayın.</p>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="flex items-start gap-3">
+                            <div class="bg-brand-orange/10 p-2 rounded-lg">
+                                <i data-lucide="cpu" class="w-6 h-6 text-brand-orange"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Güçlü İşlemci</h4>
+                                <p class="text-sm text-gray-600">240MHz dual-core işlemci</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="bg-brand-orange/10 p-2 rounded-lg">
+                                <i data-lucide="wifi" class="w-6 h-6 text-brand-orange"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Kablosuz Bağlantı</h4>
+                                <p class="text-sm text-gray-600">Wi-Fi ve Bluetooth 5.0</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="bg-brand-orange/10 p-2 rounded-lg">
+                                <i data-lucide="box" class="w-6 h-6 text-brand-orange"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">12+ Modül</h4>
+                                <p class="text-sm text-gray-600">LPG Gaz, Yağmur, Titreşim, Işık, Alev, Ses, Mesafe ve daha fazlası.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="bg-brand-orange/10 p-2 rounded-lg">
+                                <i data-lucide="layout-dashboard" class="w-6 h-6 text-brand-orange"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Web Kontrol Paneli</h4>
+                                <p class="text-sm text-gray-600">Projelerinizi ve ilerlemenizi web üzerinden yönetin.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="#teklif-al" class="inline-flex items-center gap-2 text-brand-orange font-semibold hover:text-brand-orange-dark transition-colors">
+                            Teknik Özellikler ve Fiyat Bilgisi <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ürün Yelpazesi -->
+            <div class="text-center mb-16">
+                 <h3 class="text-3xl font-bold">Genişleyen Ürün Yelpazesi</h3>
+                 <p class="section-subtitle mt-2 max-w-3xl mx-auto">Temel modüllerden gelişmiş robotik kitlere kadar her seviyeye uygun çözümler.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Ürün 1 -->
+                <div class="feature-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                    <img src="modules.png"             alt="Sensor Modules"      class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2">4 Farklı Modül Seti</h4>
+                        <p class="text-gray-600 text-sm mb-4">Projelerinizi zenginleştirmek için sıcaklık, nem, gaz, mesafe ve daha birçok sensörü içeren 4 farklı modül seti.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-orange font-bold">1.990 TL'den başlayan fiyatlarla</span>
+                            <a href="#" class="text-gray-500 hover:text-brand-orange">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ürün 2 -->
+                <div class="feature-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                    <img src="ooreneorobot.png"            alt="Robot Car Kit"       class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2">Robot Araba Kiti</h4>
+                        <p class="text-gray-600 text-sm mb-4">Algoritmik düşünce ve otonom sistemlerin temellerini öğrenmek için tasarlanmış interaktif robot araba.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-orange font-bold">2.490 TL</span>
+                            <a href="#" class="text-gray-500 hover:text-brand-orange">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ürün 3 -->
+                <div class="feature-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                    <img src="aikit.png"           alt="AI Kit"              class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2">Yapay Zeka Kiti</h4>
+                        <p class="text-gray-600 text-sm mb-4">Nesne tanıma ve akıllı görme yetenekleri kazandıran kamera ve işlemci modülü ile yapay zeka dünyasına adım atın.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-orange font-bold">3.990 TL</span>
+                            <a href="#" class="text-gray-500 hover:text-brand-orange">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Ürün 4 -->
+                <div class="feature-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                    <img src="ooreneopro.png"           alt="Pro Series"          class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h4 class="text-xl font-bold mb-2">Pro Serisi</h4>
+                        <p class="text-gray-600 text-sm mb-4">İleri seviye projeler ve yarışmalar için tasarlanmış Robot Kollu Araba ve gelişmiş Kontrol Üniteleri.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-brand-orange font-bold">5.490 TL</span>
+                            <a href="#" class="text-gray-500 hover:text-brand-orange">
+                                <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Eğitim Section -->
+    <section id="egitim" class="py-24 bg-gradient-to-r from-gray-50 to-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title">FeTeMM ve Robotik Kodlama ile Geleceği Programlayın</h2>
+                <p class="section-subtitle mt-6 max-w-3xl mx-auto">oOreNEO, FeTeMM (Bilim, Teknoloji, Mühendislik ve Matematik) disiplinlerini bir araya getirerek öğrencilere 21. yüzyıl becerileri kazandırır.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                <div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-3xl font-bold mb-6">1'den 12. Sınıfa Kapsamlı Müfredat</h3>
+                        <p class="text-gray-600 mb-6">oOreNEO, her sınıf seviyesinin bilişsel gelişimine uygun, sarmal ve proje tabanlı bir eğitim programı sunar. Blok tabanlı programlama ile başlayan yolculuk, metin tabanlı dillere kadar uzanarak öğrencileri geleceğin teknolojilerine hazırlar.</p>
+                        
+                        <div class="space-y-4">
+                            <div class="curriculum-level p-4 rounded-lg">
+                                <h4 class="font-bold text-lg flex items-center gap-2">
+                                    <span class="bg-brand-orange text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">1-4</span>
+                                    <span>İlkokul - Keşif Seviyesi</span>
+                                </h4>
+                                <p class="text-sm text-gray-600 mt-2 pl-10">Temel algoritmik düşünce, basit robotik projeler, görsel programlama</p>
+                            </div>
+                            
+                            <div class="curriculum-level p-4 rounded-lg">
+                                <h4 class="font-bold text-lg flex items-center gap-2">
+                                    <span class="bg-brand-orange text-white rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">5-8</span>
+                                    <span>Ortaokul - Uygulama Seviyesi</span>
+                                </h4>
+                                <p class="text-sm text-gray-600 mt-2 pl-10">İleri robotik uygulamalar, sensör entegrasyonu, Python ile programlama</p>
+                            </div>
+                            
+                            <div class="curriculum-level p-4 rounded-lg">
+                                <h4 class="font-bold text-lg flex items-center gap-2">
+                                    <span class="bg-brand-orange text-white text-xs rounded-full w-8 h-8 flex items-center justify-center flex-shrink-0">
+  9-12
+</span>
+
+                                    <span>Lise - Uzmanlık Seviyesi</span>
+                                </h4>
+                                <p class="text-sm text-gray-600 mt-2 pl-10">Yapay zeka uygulamaları, IoT projeleri, endüstriyel robotik, C++ programlama</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="bg-white p-8 rounded-2xl shadow-lg">
+                        <h3 class="text-3xl font-bold mb-6">Esnek Eğitim Modelleri</h3>
+                        <p class="text-gray-600 mb-6">Okulların ihtiyaçlarına özel çözümler sunuyoruz. İster sadece kitlerimizi ve müfredatımızı kullanın, isterseniz de "Full Paket" hizmetimizle uzman eğitmenlerimizi okulunuza davet edin.</p>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-brand-orange/10 p-3 rounded-full">
+                                    <i data-lucide="package" class="w-6 h-6 text-brand-orange"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Temel Paket</h4>
+                                    <p class="text-gray-600">oOreNEO kitleri ve online müfredat erişimi</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4">
+                                <div class="bg-brand-orange/10 p-3 rounded-full">
+                                    <i data-lucide="monitor" class="w-6 h-6 text-brand-orange"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Standart Paket</h4>
+                                    <p class="text-gray-600">Kontrol paneli erişimi + eğitmen eğitimi</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-4">
+                                <div class="bg-brand-orange/10 p-3 rounded-full">
+                                    <i data-lucide="award" class="w-6 h-6 text-brand-orange"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-lg">Full Paket</h4>
+                                    <p class="text-gray-600">Uzman eğitmen desteği + laboratuvar kurulumu</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-8">
+                            <a href="#" class="inline-flex items-center gap-2 text-brand-orange font-semibold hover:text-brand-orange-dark transition-colors">
+                                Paketlerimizi inceleyin <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Yarışmalar -->
+            <div class="mt-16 bg-brand-orange text-white rounded-xl shadow-lg p-8 md:p-12">
+                <div class="flex flex-col md:flex-row items-center gap-8">
+                    <div class="md:w-1/3 flex justify-center">
+                        <i data-lucide="trophy" class="w-24 h-24 text-orange-200"></i>
+                    </div>
+                    <div class="md:w-2/3">
+                        <h3 class="text-3xl font-bold mb-4">Proje Yarışmaları ile Rekabet ve Gelişim</h3>
+                        <p class="text-orange-100">Öğrencilerin öğrendiklerini sergilemeleri, problem çözme becerilerini geliştirmeleri ve takım çalışmasını deneyimlemeleri için sınıflar arası ve okullar arası proje yarışmaları düzenliyoruz. Bu yarışmalarla genç mucitleri keşfediyor ve onları motive ediyoruz.</p>
+                        <div class="mt-6">
+                            <a href="#" class="inline-flex items-center gap-2 bg-black text-brand-orange font-bold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors">
+                                <i data-lucide="calendar" class="w-5 h-5"></i> Yarışma Takvimi
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Platform Section -->
+    <section id="platform" class="py-24 bg-gradient-to-b from-white to-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title">oOreNEO Kontrol Paneli</h2>
+                <p class="section-subtitle mt-6 max-w-3xl mx-auto">Öğrenme deneyiminizin komuta merkezi. İlerlemenizi takip edin, görevlerinizi yönetin ve tüm kaynaklara tek bir yerden erişin.</p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row items-center gap-12 mb-16">
+                <div class="md:w-1/2">
+                    <div class="gradient-border p-1 rounded-xl">
+                        <div class="bg-white p-1 rounded-xl">
+                            <img src="liveimage.png" alt="Live Lesson" class="rounded-xl shadow-lg w-full">
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-3xl font-bold mb-4">Canlı Ders ve Anlık Takip</h3>
+                    <p class="text-gray-600 mb-6">Öğretmenler, web tabanlı panel üzerinden öğrencilerin çalışmalarını, kodlarını ve hatta oOreNEO kartlarının anlık durumunu canlı olarak izleyebilir. Bu sayede anında geri bildirim ve etkin problem çözme imkanı sunulur.</p>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-1"></i>
+                            <span>Öğrenci ekranlarını gerçek zamanlı görüntüleme</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-1"></i>
+                            <span>Uzaktan kod gönderme ve hata düzeltme</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-1"></i>
+                            <span>Proje paylaşımı ve örnek kod havuzu</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i data-lucide="check-circle" class="w-5 h-5 text-green-500 mt-1"></i>
+                            <span>Çoklu dil desteği (Türkçe, İngilizce, Arapça)</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row-reverse items-center gap-12">
+                <div class="md:w-1/2">
+                    <div class="gradient-border p-1 rounded-xl">
+                        <div class="bg-white p-1 rounded-xl">
+                           <img src="zreportimage.png" alt="Z Report" class="rounded-xl shadow-lg w-full">
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-3xl font-bold mb-4">Z Raporu ile Derinlemesine Analiz</h3>
+                    <p class="text-gray-600 mb-6">Sınıfın veya öğrenci grubunun genel başarı durumunu haftalık, aylık ve yıllık periyotlarda detaylı olarak inceleyin. Veriye dayalı kararlarla eğitim kalitesini artırın ve öğrenme trendlerini keşfedin.</p>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg">Öğrenci Analitikleri</h4>
+                            <p class="text-sm text-gray-600">Bireysel ilerlemeyi takip edin</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg">Sınıf Karşılaştırmaları</h4>
+                            <p class="text-sm text-gray-600">Sınıf performansını ölçün</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg">Proje Başarı Oranları</h4>
+                            <p class="text-sm text-gray-600">Zorluk seviyelerine göre analiz</p>
+                        </div>
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h4 class="font-bold text-lg">Öğrenme Haritaları</h4>
+                            <p class="text-sm text-gray-600">Kazanım bazlı ilerleme</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Başarı Hikayeleri</h2>
+                <p class="section-subtitle mt-6 max-w-3xl mx-auto">oOreNEO kullanıcılarının deneyimleri ve başarıları</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-bold">Ayşe Yılmaz</h4>
+                            <p class="text-sm text-gray-600">Bilişim Teknolojileri Öğretmeni</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic flex-grow">"oOreNEO ile öğrencilerim artık kodlamayı bir angarya değil, keyifli bir aktivite olarak görüyor. Platformun sunduğu görsel programlama araçları ve gerçek zamanlı takip özelliği işimizi çok kolaylaştırdı."</p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-bold">Mehmet Kaya</h4>
+                            <p class="text-sm text-gray-600">Teknoloji Lisesi Müdürü</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic flex-grow">"Okulumuzda oOreNEO ekosistemini kullanmaya başladığımızdan beri öğrencilerimizin proje üretme ve problem çözme becerilerinde ciddi bir artış gözlemledik. Özellikle Full Paket hizmeti ile gelen eğitmen desteği çok değerli."</p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card bg-white p-6 rounded-xl shadow-lg flex flex-col h-full">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="bg-gray-200 border-2 border-dashed rounded-xl w-16 h-16 flex-shrink-0"></div>
+                        <div>
+                            <h4 class="font-bold">Zeynep Demir</h4>
+                            <p class="text-sm text-gray-600">8. Sınıf Öğrencisi</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic flex-grow">"oOreNEO ile yapay zeka projemi geliştirdim ve okullar arası yarışmada birinci oldum. Platformun sunduğu kaynaklar ve eğitmenlerin desteği sayesinde kendimi çok geliştirdim. Artık geleceğin mühendisi olmak istiyorum!"</p>
+                    <div class="flex mt-4">
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                        <i class="fas fa-star text-yellow-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teklif Al Section -->
+    <section id="contact-whatsapp" class="py-24 bg-gray-50 text-center">
+  <div class="container mx-auto px-6">
+    <h2 class="text-3xl font-bold mb-4">WhatsApp’tan Bizimle İletişime Geçin</h2>
+    <p class="text-gray-600 mb-8">
+      Sorularınız mı var veya hemen başlamak mı istiyorsunuz? Aşağıdaki butona tıklayarak doğrudan WhatsApp üzerinden bize mesaj gönderebilirsiniz!
+    </p>
+    <a
+      href="https://wa.me/905512589444?text=Merhaba%2C%20oOreNEO%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded-lg transition-colors shadow-lg"
+    >
+      <i data-lucide="phone" class="w-5 h-5"></i>
+      WhatsApp’tan Mesaj Gönder
+    </a>
+  </div>
+</section>
+
+
+    <!-- SSS Section -->
+    <section id="sss" class="py-24 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="section-title">Sıkça Sorulan Sorular</h2>
+                <p class="section-subtitle mt-6 max-w-3xl mx-auto">Aklınızdaki soruların cevaplarını burada bulabilirsiniz.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto space-y-4">
+                <!-- Soru 1 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>oOreNEO, FeTeMM (STEM) eğitimine nasıl katkıda bulunuyor?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>oOreNEO, FeTeMM (Bilim, Teknoloji, Mühendislik ve Matematik) disiplinlerini somut projelerde birleştirir. Öğrenciler, bir problemi çözmek için bilimsel prensipleri kullanır, teknolojik bir araç (oOreNEO) ile mühendislik tasarımı yapar ve algoritmik düşünceyle matematiksel mantık kurarlar. Bu bütünleşik yaklaşım, teorik bilgilerin kalıcı ve anlamlı hale gelmesini sağlar.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 2 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>Robotik kodlama öğrenmek neden önemli?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>Robotik kodlama; problem çözme, analitik düşünme, yaratıcılık ve takım çalışması gibi 21. yüzyıl becerilerini geliştirir. oOreNEO, karmaşık kablo bağlantıları ve kurulumları ortadan kaldıran yapısı, blok tabanlı kodlama arayüzü ve proje tabanlı müfredatı ile bu süreci her yaş için eğlenceli ve erişilebilir hale getirir.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 3 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>Öğrenciler için proje yarışmaları düzenliyor musunuz?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>Evet, kesinlikle! Öğrencilerin öğrendiklerini sergilemeleri, sağlıklı bir rekabet ortamında kendilerini geliştirmeleri ve takım ruhunu yaşamaları için düzenli olarak sınıflar arası, okullar arası ve ulusal düzeyde proje yarışmaları düzenlemeyi planlıyoruz.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 4 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>Hangi yaş grupları için uygundur?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>oOreNEO ekosistemi, 1. sınıftan 12. sınıfa kadar tüm K-12 seviyesine hitap edecek şekilde tasarlanmıştır. Her sınıf seviyesi için özel olarak hazırlanmış müfredatlarımız ve proje önerilerimiz bulunmaktadır.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 5 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>Okullar için "Full Paket" hizmetiniz neleri içeriyor?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>"Full Paket" hizmetimiz, okulların robotik kodlama laboratuvarını A'dan Z'ye kurmasını sağlar. Bu paket, gerekli tüm oOreNEO kitlerini, müfredat erişimini, Kontrol Paneli lisansını ve en önemlisi, dersleri vermek üzere okunuza görevlendirilecek uzman bir oOreNEO eğitmenini içerir.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 6 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>Yaz okulları veya etütler için özel programlarınız var mı?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>Evet, standart okul müfredatının yanı sıra yaz okulları, hafta sonu kulüpleri ve okul sonrası etüt programları için de esnek ve yoğunlaştırılmış eğitim programları sunuyoruz. İhtiyaçlarınıza özel bir program oluşturmak için bizimle iletişime geçebilirsiniz.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 7 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>Ürünleriniz garantili mi ve teknik destek sağlıyor musunuz?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>Tüm oOreNEO ürünleri üretim hatalarına karşı garantilidir. Ayrıca, hem bireysel kullanıcılarımıza hem de kurumsal müşterilerimize e-posta ve telefon yoluyla kapsamlı teknik destek sağlıyoruz.</p>
+                    </div>
+                </div>
+                
+                <!-- Soru 8 -->
+                <div class="bg-gray-50 rounded-lg border border-gray-200">
+                    <button class="faq-question w-full text-left p-5 font-semibold flex justify-between items-center">
+                        <span>oOreNEO %100 yerli üretim mi?</span>
+                        <i data-lucide="chevron-down" class="faq-arrow w-5 h-5 transition-transform"></i>
+                    </button>
+                    <div class="faq-answer hidden p-5 border-t text-gray-600">
+                        <p>Evet. oOreNEO, tasarımı, yazılımı ve üretimiyle %100 Türk Malı bir üründür. Bilişim Vadisi'ndeki Ar-Ge merkezimizde geliştirilmekte ve yerli imkanlarla üretilmektedir.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İletişim Section -->
+    <section id="iletisim" class="py-24 bg-gray-800 text-white">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold">İletişime Geçin</h2>
+                <p class="text-gray-300 max-w-2xl mx-auto mt-4">oOreNEO'nun sunduğu fırsatlar, birebir online eğitimler ve kurumsal çözümler hakkında daha fazla bilgi almak için bize ulaşın.</p>
+            </div>
+            
+            <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-700 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">İletişim Bilgileri</h3>
+                    <div class="space-y-4">
+                        <p class="flex items-center">
+                            <i data-lucide="smartphone" class="w-6 h-6 mr-3 text-brand-orange"></i>
+                            +90 551 258 94 44
+                        </p>
+                        <p class="flex items-center">
+                            <i data-lucide="mail" class="w-6 h-6 mr-3 text-brand-orange"></i>
+                            <a href="mailto:info@beeneo.com" class="hover:underline">info@beeneo.com</a>
+                        </p>
+                        <p class="flex items-center">
+                            <i data-lucide="mail" class="w-6 h-6 mr-3 text-brand-orange"></i>
+                            <a href="mailto:ooreneo@beeneo.com" class="hover:underline">ooreneo@beeneo.com</a>
+                        </p>
+                        <p class="flex items-center">
+                            <i data-lucide="youtube" class="w-6 h-6 mr-3 text-brand-orange"></i>
+                            <a href="https://www.youtube.com" target="_blank" class="hover:underline">YouTube Kanalımız</a>
+                        </p>
+                        <p class="flex items-center">
+                            <i data-lucide="instagram" class="w-6 h-6 mr-3 text-brand-orange"></i>
+                            <a href="https://www.instagram.com" target="_blank" class="hover:underline">Instagram Sayfamız</a>
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">MERKEZ (HEADQUARTERS)</h3>
+                    <div class="space-y-4">
+                        <p class="flex items-start">
+                            <i data-lucide="map-pin" class="w-6 h-6 mr-3 text-brand-orange mt-1 flex-shrink-0"></i>
+                            <span>Güzeltepe Mh. Pembegül Sk. No:7/8<br>34680 Üsküdar / İstanbul</span>
+                        </p>
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-600 rounded-lg overflow-hidden mt-4">
+                            <iframe  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3008.8580631170944!2d29.062737676637447!3d41.050232916839555!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac9c96c71d5a9%3A0xc4fccb0bde55f174!2sbeeNEO!5e0!3m2!1sen!2str!4v1754395869126!5m2!1sen!2str" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+></iframe>
+
+
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-lg p-8">
+                    <h3 class="text-2xl font-bold mb-6">BİLİŞİM VADİSİ (R&D CENTER)</h3>
+                    <div class="space-y-4">
+                        <p class="flex items-start">
+                            <i data-lucide="map-pin" class="w-6 h-6 mr-3 text-brand-orange mt-1 flex-shrink-0"></i>
+                            <span>Muallimköy Mh. Deniz Cd. No:143/13 2B Blok 411<br>41400 Gebze / Kocaeli</span>
+                        </p>
+                        <div class="aspect-w-16 aspect-h-9 bg-gray-600 rounded-lg overflow-hidden mt-4">
+                           <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3020.8341950486!2d29.505444790801313!3d40.78765915920141!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac96fe1e3d693%3A0xf1dd2318400ed585!2sBerrin%20Erden%20NEO%20M%C3%BChendislik%20Dan%C4%B1%C5%9Fmanl%C4%B1k%20G%C4%B1da%20Sanayi%20ve%20Ticaret%20Ltd.%20%C5%9Eti.!5e0!3m2!1sen!2str!4v1754403936335!5m2!1sen!2str" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-400 py-10">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <a href="#" class="text-3xl font-bold flex items-center mb-4">
+                        <span class="text-white">oO</span><span class="brand-orange">re</span><span class="text-white">NEO</span>
+                    </a>
+                    <p class="mb-4">Geleceğin mühendislerini yetiştiren, Türkiye'nin öncü robotik kodlama ve STEM eğitim platformu.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Ürünler</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Ana Modül</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Sensör Setleri</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Robot Araba Kiti</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Yapay Zeka Kiti</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pro Serisi</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Çözümler</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Okullar İçin</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Bireysel Kullanıcılar</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Yaz Okulları</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Etüt Merkezleri</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Kurumsal Eğitimler</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Kaynaklar</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Dokümantasyon</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Eğitim Videoları</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Proje Örnekleri</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Sıkça Sorulan Sorular</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>oOreNEO, bir <strong class="text-white">Berrin Erden NEO Mühendislik Danışmanlık Gıda San. ve Tic. Ltd. Şti.</strong> markasıdır.</p>
+                <p class="mt-2">© 2025 oOreNEO by beeNEO. Tüm Hakları Saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Mobil menü butonu işlevselliği
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Menü linklerine tıklandığında menüyü kapat
+        const menuLinks = document.querySelectorAll('#mobile-menu a, header a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                if(link.getAttribute('href').startsWith('#')) {
+                    mobileMenu.classList.add('hidden');
+                    
+                    // Yumuşak scroll
+                    const targetId = link.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        e.preventDefault();
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80, // Adjust for sticky header
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            });
+        });
+
+        // SSS Akordiyon işlevselliği
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const wasOpen = question.classList.contains('open');
+                
+                // Close all other answers
+                faqQuestions.forEach(otherQuestion => {
+                    otherQuestion.classList.remove('open');
+                    otherQuestion.nextElementSibling.classList.add('hidden');
+                });
+                
+                // Toggle the clicked answer
+                if (!wasOpen) {
+                    question.classList.add('open');
+                    answer.classList.remove('hidden');
+                }
+            });
+        });
+
+        // Teklif Formu ve Captcha
+        const form = document.getElementById('offer-form');
+        const captchaLabel = document.getElementById('captcha-label');
+        const captchaInput = document.getElementById('captcha');
+        const formMessage = document.getElementById('form-message');
+        let num1, num2, correctAnswer;
+
+        function generateCaptcha() {
+            num1 = Math.floor(Math.random() * 10) + 1;
+            num2 = Math.floor(Math.random() * 10) + 1;
+            correctAnswer = num1 + num2;
+            captchaLabel.textContent = `Lütfen bu işlemi çözün: ${num1} + ${num2} = ?`;
+        }
+        
+        if (form) {
+            generateCaptcha();
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const userAnswer = parseInt(captchaInput.value, 10);
+                
+                if (userAnswer === correctAnswer) {
+                    formMessage.textContent = 'Mesajınız başarıyla gönderildi! En kısa sürede sizinle iletişime geçeceğiz.';
+                    formMessage.className = 'text-center mt-4 text-green-600';
+                    form.reset();
+                    generateCaptcha();
+                } else {
+                    formMessage.textContent = 'Doğrulama kodu yanlış. Lütfen tekrar deneyin.';
+                    formMessage.className = 'text-center mt-4 text-red-600';
+                    captchaInput.value = '';
+                    generateCaptcha();
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>
